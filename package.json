@@ -1,0 +1,20 @@
+{
+  "name": "mirra-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/austin-lynes/mirra-api",
+  "author": "AustinLynes <austinlynes94@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^3.21.3",
+    "knex": "^0.20.13",
+    "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0",
+    "nodemon": "^2.0.2"
+  }
+}
