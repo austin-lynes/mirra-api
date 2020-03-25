@@ -18,7 +18,8 @@
     "sqlite3": "^4.1.1"
   },
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "server": "nodemon index.js",
     "test": "cross-env DB_ENV=testing jest --watch"
   },
   "devDependencies": {
