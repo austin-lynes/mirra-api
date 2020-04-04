@@ -9,7 +9,7 @@ const generateRefreshToken = require('../../util/generateRefreshToken')
 const generateTimeoutToken = require('../../util/generateTimeoutToken')
 const generateAccessToken = require('../../util/generateAccessToken')
 
-router.post('/register',  (req, res) => {
+router.post('/register', (req, res) => {
     // HASH THE PASSWORD FOR USER SAFETY
     const user = req.body
     const hash = bcrypt.hashSync(user.password, 12)
@@ -56,7 +56,11 @@ router.post('/login', (req, res) => {
                         // the token was modified
                         res.status(403).json({ message: `sorry... wrong credentials`, })
                     }
-                }).catch((err) => { console.log(err); res.status(500).json({ message: 'no user found please create an account' }) })
+                })
+                .catch((err) => {
+                    console.log(err);
+                    res.status(500).json({ message: 'no user found please create an account' })
+                })
             // that it is valid for them to login.
             // then the api can give them a refresh and timeout token.
 

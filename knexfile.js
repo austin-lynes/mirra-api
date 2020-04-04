@@ -20,7 +20,7 @@ module.exports = {
   },
 
   testing: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
       database: 'mirra-test',
       user: 'postgres',
