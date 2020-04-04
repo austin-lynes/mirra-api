@@ -27,13 +27,13 @@ describe('auth/register', () => {
         const user_with_token = { ...mock_user, "access-token": generateAccessToken(mock_user) }
         let res = await req(server).post('/auth/register').send(user_with_token)
         // expect to have a good request
-        // expect(res.status).toEqual(201);
+        expect(res.status).toEqual(201);
     })
     it('can register a user -- returns a thank you message -- ', async () => {
         // simulate the api adding a access token to the user on register
         const user_with_token = { ...mock_user, "access-token": generateAccessToken(mock_user) }
         let res = await req(server).post('/auth/register').send(user_with_token)
-        // expect(res.body.message).toEqual('thank you for registering please log in now');
+        expect(res.body.message).toEqual('thank you for registering please log in now');
     })
 })
 describe('auth/login', () => {
@@ -42,11 +42,11 @@ describe('auth/login', () => {
         const user_with_token = { ...mock_user, "access-token": generateAccessToken(mock_user) }
         let res = await req(server).post('/auth/register').send(user_with_token)
         // expect to have a good request
-        // expect(res.status).toEqual(201);
+        expect(res.status).toEqual(201);
         // user is registered.. now they should be able to login 
-        // const login = await req(server).post('/auth/login').send(mock_user_creds)
+        const login = await req(server).post('/auth/login').send(mock_user_creds)
 
-        // expect(login.status).toBe(200)
+        expect(login.status).toBe(200)
 
     })
     it('can login a user -- returns a token  -- ', async () => {
@@ -54,11 +54,11 @@ describe('auth/login', () => {
         const user_with_token = { ...mock_user, "access-token": generateAccessToken(mock_user) }
         let res = await req(server).post('/auth/register').send(user_with_token)
         // expect to have a good request
-        // expect(res.status).toEqual(201);
-        // const login = await req(server).post('/auth/login').send(mock_user_creds)
-        // const { refreshToken, timeoutToken } = login.body;
-        // expect(refreshToken.length).toBeGreaterThan(12);
-        // expect(timeoutToken.length).toBeGreaterThan(12);
+        expect(res.status).toEqual(201);
+        const login = await req(server).post('/auth/login').send(mock_user_creds)
+        const { refreshToken, timeoutToken } = login.body;
+        expect(refreshToken.length).toBeGreaterThan(12);
+        expect(timeoutToken.length).toBeGreaterThan(12);
     })
 })
 

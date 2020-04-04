@@ -13,8 +13,6 @@ function shapeIsValid(req, res, next) {
     const user = req.body
     if (!user.username) {
         res.status(500).json({ message: 'please provide a username' })
-    } else if (!user.email || !Users.isValidEmailAddress(user.email)) {
-        res.status(500).json({ message: 'please provide a username' })
     } else if (user.password.length < 8) {
         res.status(500).json({ message: 'Password is too short' })
     }
@@ -23,7 +21,6 @@ function shapeIsValid(req, res, next) {
     } else {
 
         req.user = { ...user, "access-token": generateAccessToken(user) };
-        console.log(req.user)
         next()
     }
 }
