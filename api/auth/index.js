@@ -9,25 +9,7 @@ const generateRefreshToken = require('../../util/generateRefreshToken')
 const generateTimeoutToken = require('../../util/generateTimeoutToken')
 const generateAccessToken = require('../../util/generateAccessToken')
 
-function shapeIsValid(req, res, next) {
-    const user = req.body
-    if (!user.username) {
-        res.status(500).json({ message: 'please provide a username' })
-    } else if (user.password.length < 8) {
-        res.status(500).json({ message: 'Password is too short' })
-    }
-    else if (user.password.length > 56) {
-        res.status(500).json({ message: 'Password is too long' })
-    } else {
-
-        req.user = { ...user, "access-token": generateAccessToken(user) };
-        next()
-    }
-}
-
-
-
-router.post('/register', shapeIsValid, (req, res) => {
+router.post('/register',  (req, res) => {
     // HASH THE PASSWORD FOR USER SAFETY
     const user = req.user
     const hash = bcrypt.hashSync(user.password, 12)
@@ -41,6 +23,7 @@ router.post('/register', shapeIsValid, (req, res) => {
                 res.status(400).json({ err: 'something went wrong' })
             }
         }).catch((err) => {
+            console.log(err)
             res.status(500).json({ err: err })
 
         })
