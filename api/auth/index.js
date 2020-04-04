@@ -11,7 +11,7 @@ const generateAccessToken = require('../../util/generateAccessToken')
 
 router.post('/register',  (req, res) => {
     // HASH THE PASSWORD FOR USER SAFETY
-    const user = req.user
+    const user = req.body
     const hash = bcrypt.hashSync(user.password, 12)
     user.password = hash
     // ----------------------------------------------------
