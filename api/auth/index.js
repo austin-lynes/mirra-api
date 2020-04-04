@@ -14,8 +14,9 @@ router.post('/register', (req, res) => {
     const user = req.body
     const hash = bcrypt.hashSync(user.password, 12)
     user.password = hash
+    const auth_user = { ...user, 'access-token': generateAccessToken(user) }
     // ----------------------------------------------------
-    Users.create(user)
+    Users.create(auth_user)
         .then((_user) => {
             if (_user) {
                 res.status(201).json({ message: 'thank you for registering please log in now' })
@@ -23,7 +24,6 @@ router.post('/register', (req, res) => {
                 res.status(400).json({ err: 'something went wrong' })
             }
         }).catch((err) => {
-            console.log(err)
             res.status(500).json({ err: err })
 
         })
@@ -31,44 +31,28 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
     const credentials = req.body;
-    if (credentials) {
-        if (!credentials.username) {
-            res.status(500).json({ message: 'please provide a username' })
-        } else if (!credentials.password) {
-            res.status(500).json({ message: 'please provide a password' })
-        } else {
-            // if we have a valid email address or valid username 
-            // and password combo then they can login
-            // but we need to find them first, and check their access token to verify 
-            Users.findByUsername(credentials.username)
-                .then((_user) => {
-                    if (jwt.verify(_user['access-token'], secrets.jwtSecret)) {
-                        if (bcrypt.compareSync(credentials.password, _user.password)) {
-                            // now we can create the refresh token and the timeout token
-                            const refreshToken = generateRefreshToken(_user);
-                            const timeoutToken = generateTimeoutToken(_user);
-                            res.status(200).json({ message: `welcome ${_user.username}.`, refreshToken, timeoutToken })
-                        } else {
-                            res.status(403).json({ message: `sorry... wrong credentials`, })
-                        }
-                    } else {
-                        // the token is stale.. been here for more than 365 days...
-                        // the token was modified
-                        res.status(403).json({ message: `sorry... wrong credentials`, })
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                    res.status(500).json({ message: 'no user found please create an account' })
-                })
-            // that it is valid for them to login.
-            // then the api can give them a refresh and timeout token.
 
-        }
-    } else {
-        res.status(500).json({ message: 'Please Provide Login credentials' })
-    }
-
+    Users.findByUsername(credentials.username)
+        .then((_user) => {
+            if (jwt.verify(_user['access-token'], secrets.jwtSecret)) {
+                if (bcrypt.compareSync(credentials.password, _user.password)) {
+                    // now we can create the refresh token and the timeout token
+                    const refreshToken = generateRefreshToken(_user);
+                    const timeoutToken = generateTimeoutToken(_user);
+                    res.status(200).json({ message: `welcome ${_user.username}.`, refreshToken, timeoutToken })
+                } else {
+                    res.status(403).json({ message: `sorry... wrong credentials`, })
+                }
+            } else {
+                // the token is stale.. been here for more than 365 days...
+                // the token was modified
+                res.status(403).json({ message: `sorry... wrong credentials`, })
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({ message: 'no user found please create an account' })
+        })
 })
 
 

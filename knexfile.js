@@ -1,7 +1,8 @@
 require('dotenv').config()
 
 module.exports = {
-  development: {
+  
+  production: {
     client: 'pg',
     connection: process.env.DATABASE_URL,
     migrations: {
@@ -10,7 +11,7 @@ module.exports = {
     useNullAsDefault: true
   },
 
-  production: {
+  development: {
     client: 'pg',
     connection: process.env.DATABASE_URL,
     migrations: {
@@ -22,6 +23,7 @@ module.exports = {
   testing: {
     client: 'pg',
     connection: {
+      host:'127.0.0.1',
       database: 'mirra-test',
       user: 'postgres',
       password: process.env.LOCAL_PASSWORD,
