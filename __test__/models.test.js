@@ -4,9 +4,11 @@ const User = require('../models/user-model');
 const generateAccessToken = require('../util/generateAccessToken')
 
 beforeEach(async () => {
-    await db('user').truncate();
+    await db('auth').truncate();
 })
+
 jest.setTimeout(1000 * 8);
+
 const mock_user = {
     "username": "MirraBot001",
     "email": "mirraSupporter01@gmail.com",
@@ -29,8 +31,8 @@ const mock_user3 = {
 describe('create', () => {
     it('can create a user', async () => {
         const user_with_token = { ...mock_user, "access-token": generateAccessToken(mock_user) }
-        const [id] = await User.create(user_with_token)
-        expect(id).toBe(1);
+        const user = await User.create(user_with_token);
+        expect(user.username).toBe(mock_user.username);
     })
 })
 describe('read', () => {
@@ -71,11 +73,10 @@ describe('update', () => {
     it('can update a user', async () => {
         // create a user to the database
         const user_with_token = { ...mock_user, "access-token": generateAccessToken(mock_user) }
-        const [id] = await User.create(user_with_token)
+        const user = await User.create(user_with_token)
 
         const _changes = {
-            ...mock_user,
-            id,
+            ...user,
             username: 'panda'
         }
 
@@ -98,9 +99,15 @@ describe('delete', () => {
         const user2 = await User.create(user_with_token2)
         const user3 = await User.create(user_with_token3)
         // try to delete by id
-        await User.remove(2);
+        await User.remove(user.id);
         // now check the list... should be length of 2
-        const users = await User.find()
+        let users = await User.find()
         expect(users.length).toBe(2)
+        await User.remove(user2.id);
+        users = await User.find()
+        expect(users.length).toBe(1)
+        await User.remove(user3.id);
+        users = await User.find()
+        expect(users.length).toBe(0)
     })
 })

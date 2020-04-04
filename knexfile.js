@@ -1,98 +1,60 @@
 require('dotenv').config()
 
 module.exports = {
-
-
   development: {
     client: 'pg',
-    connection: process.env.DB_URL,
+    connection: {
+      host: '127.0.0.1',
+      user: process.env.USER,
+      password: process.env.PASSWORD,
+      database: process.env.DATABASE,
+      charset: 'utf8'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
     migrations: {
       directory: './data/migrations',
     },
-    seeds: { directory: './data/seeds' },
-  },
-
-  testing: {
-    client: 'pg',
-    connection: process.env.DB_URL,
-    migrations: {
-      directory: './data/migrations',
-    },
-    seeds: { directory: './data/seeds' },
+    useNullAsDefault: true
   },
 
   production: {
     client: 'pg',
-    connection: process.env.DB_URL,
+    connection: {
+      host: '127.0.0.1',
+      user: process.env.USER,
+      password: process.env.PASSWORD,
+      database: process.env.DATABASE,
+      charset: 'utf8'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
     migrations: {
       directory: './data/migrations',
     },
-    seeds: { directory: './data/seeds' },
-  }
+    useNullAsDefault: true
+  },
 
-  // staging: {
-  //   client: 'postgresql',
-  //   connection: {
-  //     database: 'mirra',
-  //     user:     'postgres',
-  //     password: 'password'
-  //   },
-  //   pool: {
-  //     min: 2,
-  //     max: 10
-  //   },
-  //   migrations: {
-  //     tableName: 'knex_migrations'
-  //   }
-  // },
-  // production: {
-  //   client: 'postgresql',
-  //   connection: {
-  //     database: 'mirra',
-  //     user:     'postgres',
-  //     password:  process.env
-  //   },
-  //   pool: {
-  //     min: 2,
-  //     max: 10
-  //   },
-  //   migrations: {
-  //     tableName: 'knex_migrations'
-  //   }
-  // },
-  // development: {
-  //   client: 'sqlite3',
-  //   useNullAsDefault:true,
-  //   connection: {
-  //     filename: './data/m.db3'
-  //   },
-  //   migrations: {
-  //     directory: './data/migrations'
-  //   },
-  //   pool: {
-  //     min: 2,
-  //     max: 10,
-  //     afterCreate: (conn, done) => {
-  //       conn.run('PRAGMA foreign_keys = ON', done);
-  //     }
-  //   },
-  // },
-  // testing: {
-  //   client: 'sqlite3',
-  //   useNullAsDefault:true,
-  //   connection: {
-  //     filename: './data/test.db3'
-  //   },
-  //   migrations: {
-  //     directory: './data/migrations'
-  //   },
-  //   pool: {
-  //     min: 2,
-  //     max: 10,
-  //     afterCreate: (conn, done) => {
-  //       conn.run('PRAGMA foreign_keys = ON', done);
-  //     }
-  //   },
-  // },
+  testing: {
+    client: 'postgresql',
+    connection: {
+      database: 'mirra-test',
+      user: 'postgres',
+      password: process.env.LOCAL_PASSWORD,
+      port: 5432
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      directory: './data/migrations',
+    },
+    useNullAsDefault: true
+  },
 
 };
