@@ -1,1 +1,1 @@
-web: node index.js
+web: yarn migrate && node index.js
