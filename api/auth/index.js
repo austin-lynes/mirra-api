@@ -4,6 +4,7 @@ const Users = require('../../models/user-model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const secrets = require('../../config/secrets');
+
 const generateRefreshToken = require('../../util/generateRefreshToken')
 const generateTimeoutToken = require('../../util/generateTimeoutToken')
 const generateAccessToken = require('../../util/generateAccessToken')
@@ -50,7 +51,6 @@ router.post('/register', shapeIsValid, (req, res) => {
 
 router.post('/login', (req, res) => {
     const credentials = req.body;
-    console.log(credentials)
     if (credentials) {
         if (!credentials.username) {
             res.status(500).json({ message: 'please provide a username' })
