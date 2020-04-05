@@ -39,7 +39,12 @@ router.post('/login', (req, res) => {
                     // now we can create the refresh token and the timeout token
                     const refreshToken = generateRefreshToken(_user);
                     const timeoutToken = generateTimeoutToken(_user);
-                    res.status(200).json({ message: `welcome ${_user.username}.`, refreshToken, timeoutToken })
+                    console.log(_user)
+                    res.status(200).json({
+                        message: `welcome ${_user.username}.`,
+                        username: _user.username,
+                        tokens: { refreshToken, timeoutToken, accessToken: _user['access-token'] },
+                    })
                 } else {
                     res.status(403).json({ message: `sorry... wrong credentials`, })
                 }
