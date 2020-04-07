@@ -5,7 +5,7 @@ const server = require('../server.js');
 const generateAccessToken = require('../util/generateAccessToken')
 
 beforeEach(async () => {
-    await db('auth').truncate();
+    await db('user').truncate();
 })
 
 jest.setTimeout(1000 * 8);
@@ -49,7 +49,7 @@ describe('auth/login', () => {
         expect(login.status).toBe(200)
 
     })
-    
+
     it('can login a user -- returns a token  -- ', async () => {
         // simulate the api adding a access token to the user on register
         const user_with_token = { ...mock_user, "access-token": generateAccessToken(mock_user) };

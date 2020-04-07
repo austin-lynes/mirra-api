@@ -11,29 +11,29 @@ module.exports = {
 }
 
 function findByUsername(username) {
-    return db('auth').where({ username }).first()
+    return db('user').where({ username }).first()
 }
 
 function find(username) {
-    let query = db('auth')
+    let query = db('user')
     if (username) {
-        query = db('auth').where({ username }).first()
+        query = db('user').where({ username }).first()
     }
     return query
 }
 
 function findById(id) {
-    return db('auth').where({ id }).first()
+    return db('user').where({ id }).first()
 }
 
 function create(user) {
-    return db('auth').insert(user).returning('id').then(ids => findById(ids[0]));
+    return db('user').insert(user).returning('id').then(ids => findById(ids[0]));
 }
 
 function update(id, changes) {
-    return db('auth').update(changes).where({ id })
+    return db('user').update(changes).where({ id })
 }
 
 function remove(id) {
-    return db('auth').where({ id }).del()
+    return db('user').where({ id }).del()
 }

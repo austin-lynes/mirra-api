@@ -4,7 +4,7 @@ const User = require('../models/user-model');
 const generateAccessToken = require('../util/generateAccessToken')
 
 beforeEach(async () => {
-    await db('auth').truncate();
+    await db('user').truncate();
 })
 
 jest.setTimeout(1000 * 8);
