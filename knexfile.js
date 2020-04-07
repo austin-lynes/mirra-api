@@ -11,6 +11,15 @@ module.exports = {
     useNullAsDefault: true
   },
 
+  staging: {
+    client: 'pg',
+    connection: process.env.DATABASE_URL,
+    migrations: {
+      directory: './data/migrations',
+    },
+    useNullAsDefault: true
+  },
+
   development: {
     client: 'pg',
     connection: process.env.DATABASE_URL,

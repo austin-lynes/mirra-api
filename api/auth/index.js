@@ -39,7 +39,6 @@ router.post('/login', (req, res) => {
                     // now we can create the refresh token and the timeout token
                     const refreshToken = generateRefreshToken(_user);
                     const timeoutToken = generateTimeoutToken(_user);
-                    console.log(_user)
                     res.status(200).json({
                         message: `welcome ${_user.username}.`,
                         username: _user.username,
