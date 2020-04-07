@@ -51,12 +51,13 @@ describe('auth/login', () => {
     })
     it('can login a user -- returns a token  -- ', async () => {
         // simulate the api adding a access token to the user on register
-        const user_with_token = { ...mock_user, "access-token": generateAccessToken(mock_user) }
-        let res = await req(server).post('/auth/register').send(user_with_token)
+        const user_with_token = { ...mock_user, "access-token": generateAccessToken(mock_user) };
+        let res = await req(server).post('/auth/register').send(user_with_token);
         // expect to have a good request
         expect(res.status).toEqual(201);
-        const login = await req(server).post('/auth/login').send(mock_user_creds)
-        const { refreshToken, timeoutToken } = login.body;
+        const login_res = await req(server).post('/auth/login').send(mock_user_creds);
+        const { tokens } = login_res.body;
+        const { refreshToken, timeoutToken } = tokens;
         expect(refreshToken.length).toBeGreaterThan(12);
         expect(timeoutToken.length).toBeGreaterThan(12);
     })

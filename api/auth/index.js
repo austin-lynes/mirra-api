@@ -51,13 +51,18 @@ router.post('/login', (req, res) => {
             } else {
                 // the token is stale.. been here for more than 365 days...
                 // the token was modified
-                res.status(403).json({ message: `sorry... wrong credentials`, })
+                res.status(403).json({ message: `Sorry but you have been here a really long time... lets refresh your membership`, })
             }
         })
         .catch((err) => {
             console.log(err);
             res.status(500).json({ message: 'no user found please create an account' })
         })
+})
+
+router.post('/timeout', (req, res) => {
+    const { pin, refreshToken } = req.body;
+    
 })
 
 
